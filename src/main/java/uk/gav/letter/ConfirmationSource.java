@@ -10,7 +10,7 @@ import uk.gav.records.Record1;
  */
 public class ConfirmationSource extends LetterSource<Record1> {
 
-	private final static String TEMPLATE_LOC = "file:///home/regen/Documents/letters/Confirmation.txt";
+	private final static String TEMPLATE_LOC = "classpath:templates/Confirmation.txt";
 	private final static String OUTPUT_DIR = "file:///home/regen/temp/output";
 
 	private final static String OUTPUT_FN = "Confirmation";

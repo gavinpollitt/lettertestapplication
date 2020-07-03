@@ -5,8 +5,12 @@ spring:
       username: testu
       password: testp
    jpa:
+      show-sql: false
       hibernate:
          ddl-auto: update
+      properties:
+         hibernate:
+            show_sql: false
 
 batch:
    lineListeners: >
@@ -17,6 +21,8 @@ batch:
       uk.gav.letter.ConfirmationSource,
       uk.gav.letter.DiscountSource,
       uk.gav.letter.InvoiceSource
+   dateProvider:
+      uk.gav.date.TestDateProvider
 
 company:
    host: localhost

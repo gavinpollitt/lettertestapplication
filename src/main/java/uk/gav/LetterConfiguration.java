@@ -15,6 +15,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
 import uk.gav.batch.LineListener;
+import uk.gav.date.DateProvider;
 import uk.gav.letter.LetterSource;
 import uk.gav.records.Record;
 
@@ -27,6 +28,7 @@ public class LetterConfiguration {
 
 	private List<String> lineListeners;
 	private List<String> letterSources;
+	private String		 dateProvider;
 
 	@Bean
 	public TaskExecutor getTaskExecutor() {
@@ -41,6 +43,17 @@ public class LetterConfiguration {
 		return builder.build();
 	}
 
+	@Bean
+	public DateProvider getDateProvider() {
+		DateProvider clazz = null;
+		try {
+			clazz = (DateProvider) context.getAutowireCapableBeanFactory().createBean(Class.forName(this.dateProvider));
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Unable to load service class: " + this.dateProvider + "::" + e);
+		}
+		return clazz;		
+	}
+	
 	@Bean(name = "lineListeners")
 	public List<LineListener> getListeners() {
 		return this.lineListeners.stream().map(this::getListener).collect(Collectors.toList());
@@ -86,5 +99,9 @@ public class LetterConfiguration {
 
 	public void setLetterSources(List<String> letterSources) {
 		this.letterSources = letterSources;
+	}
+
+	public void setDateProvider(String dateProvider) {
+		this.dateProvider = dateProvider;
 	}
 }

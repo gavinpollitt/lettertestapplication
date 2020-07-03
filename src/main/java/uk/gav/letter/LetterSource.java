@@ -1,5 +1,6 @@
 package uk.gav.letter;
 
+import java.io.File;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.springframework.util.ResourceUtils;
 
 import uk.gav.records.Record;
 import uk.gav.records.RecordUtils.Field;
@@ -49,8 +52,14 @@ public abstract class LetterSource<T extends Record> {
 	 */
 	protected void loadTemplate() throws Exception {
 		if (this.template == null) {
-			URI uri = URI.create(getTemplateURI());
-			this.template = new Template(uri);
+			String tempURI = this.getTemplateURI();
+			if (tempURI.startsWith("file")) {
+				URI uri = URI.create(tempURI);
+				this.template = new Template(uri);
+			}
+			else {
+				this.template = new Template(tempURI);				
+			}
 		}
 
 	}
@@ -235,11 +244,20 @@ public abstract class LetterSource<T extends Record> {
 		private List<String> templateLines;
 		private List<List<FieldPos>> lineTags;
 
+		public Template (final String uri) throws Exception {
+			File f = ResourceUtils.getFile(uri);
+			this.processTemplateFile(f.toPath());
+		}
+		
 		public Template(URI uri) throws Exception {
 			Path p = Paths.get(uri);
+			this.processTemplateFile(p);
+		}
+		
+		private void processTemplateFile(final Path p) throws Exception {
 			this.templateLines = Files.lines(p).collect(Collectors.toList());
 			this.lineTags = new ArrayList<>(this.templateLines.size());
-			this.extractFields();
+			this.extractFields();			
 		}
 
 		public void extractFields() {

@@ -10,7 +10,7 @@ import uk.gav.records.Record2;
  */
 public class DiscountSource extends LetterSource<Record2> {
 
-	private final static String TEMPLATE_LOC = "file:///home/regen/Documents/letters/Discount.txt";
+	private final static String TEMPLATE_LOC = "classpath:templates/Discount.txt";
 	private final static String OUTPUT_DIR = "file:///home/regen/temp/output";
 
 	private final static String OUTPUT_FN = "Discount";

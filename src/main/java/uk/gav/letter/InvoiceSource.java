@@ -10,7 +10,7 @@ import uk.gav.records.Record3;
  */
 public class InvoiceSource extends LetterSource<Record3> {
 
-	private final static String TEMPLATE_LOC = "file:///home/regen/Documents/letters/Invoice.txt";
+	private final static String TEMPLATE_LOC = "classpath:templates/Invoice.txt";
 	private final static String OUTPUT_DIR = "file:///home/regen/temp/output";
 
 	private final static String OUTPUT_FN = "Invoice";

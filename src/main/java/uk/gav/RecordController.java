@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import uk.gav.LetterService.Metric;
+import uk.gav.date.DateProvider;
 
 /**
  * 
@@ -27,6 +28,9 @@ public class RecordController {
 
 	@Autowired
 	private LetterService lService;
+	
+	@Autowired
+	private DateProvider dateProvider;
 
 	/**
 	 */
@@ -36,6 +40,7 @@ public class RecordController {
 			throw new Exception("Scan is already running");
 		}
 
+		System.out.println("Started scanning at:" + dateProvider.getDate());
 		try {
 			lService.scanRecords(sleep == null ? 10 : sleep);
 		} catch (Throwable e) {
@@ -47,6 +52,7 @@ public class RecordController {
 	 */
 	@RequestMapping(path = "/stop", produces = "application/json", method = RequestMethod.GET)
 	public Metric stop() throws Exception {
+		System.out.println("Stopped scanning at:" + dateProvider.getDate());
 		return lService.stopScan();
 	}
 
