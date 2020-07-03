@@ -14,7 +14,7 @@ import uk.gav.records.RecordUtils.FieldSpec;
  * @author regen
  *
  */
-public class Record1 extends Record {
+public class Record1 extends CompanyRecord {
 	private final static Pattern COMP_REG = Pattern.compile(".{1,20}");
 	private final static Pattern ADD_REG = Pattern.compile("[\\w -]{1,15}");
 	private final static Pattern PC_REG = Pattern.compile(
@@ -52,6 +52,7 @@ public class Record1 extends Record {
 		return children;
 	}
 
+	
 	/**
 	 * Perform any inter-record validation once a 'group' has been read
 	 */
@@ -71,7 +72,7 @@ public class Record1 extends Record {
 	 * @author regen
 	 *
 	 */
-	public static class Record1A extends Record {
+	public static class Record1A extends CompanyRecord {
 		private final static Pattern CNAME_REG = Pattern.compile(".{1,20}");
 		private final static Pattern CNUM_REG = Pattern.compile("[\\d ]{1,14}");
 

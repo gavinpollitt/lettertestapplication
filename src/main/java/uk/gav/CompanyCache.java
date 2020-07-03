@@ -40,9 +40,10 @@ System.out.println("Acquiring company " + companyId + " from API");
 			}
 		}
 	}
-	
+
+
 	private Company locateCompany(final String id) {
-		Company c = restTemplate.getForObject(this.getURI() + id, Company.class);
+		Company c = restTemplate.getForEntity(this.getURI() + id, Company.class).getBody();
 		
 		return c;
 	}
@@ -68,9 +69,11 @@ System.out.println("Acquiring company " + companyId + " from API");
 		this.portI = Integer.parseInt(port);
 	}
 	
-	class Company {
+	static class Company {
 		private String id;
 		private String name;
+		
+		public Company() {}
 		
 		public Company(final String id, final String name) {
 			this.id = id;
@@ -82,6 +85,14 @@ System.out.println("Acquiring company " + companyId + " from API");
 		}
 		public String getName() {
 			return name;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public void setName(String name) {
+			this.name = name;
 		}
 	}
 

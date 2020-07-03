@@ -12,7 +12,7 @@ import uk.gav.records.RecordUtils.FieldSpec;
  * @author regen
  *
  */
-public class Record2 extends Record {
+public class Record2 extends CompanyRecord {
 	private final static Pattern COMP_REG = Pattern.compile(".{1,20}");
 	private final static Pattern LN_REG = Pattern.compile(".{1,15}");
 	private final static Pattern DISC_REG = Pattern.compile("^[1-9]?[0-9](\\.[0-9][0-9]?)?$");

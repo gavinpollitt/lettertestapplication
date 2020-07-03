@@ -1,0 +1,19 @@
+						<<address1>>,
+						<<postcode>>
+					        <<system.today>>
+
+Dear <<letterName>>,
+
+This is confirmation that your company registration is
+complete. Below are the lists of contacts that you have
+provided us with:
+
+  <<group.contacts>>
+  <<contactName>>    <<contactNumber>>	
+
+If any of this information is incorrect, please contact us as 
+soon as possible.
+
+	Yours sincerely,
+
+	The Company.

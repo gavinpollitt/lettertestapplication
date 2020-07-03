@@ -42,6 +42,7 @@ public abstract class Record {
 		fields = this.isolateFields(line);		
 	}
 
+	protected Record() {}
 	/**
 	 * 
 	 * @return Any child records associated with this record
@@ -66,7 +67,7 @@ public abstract class Record {
 	 * @return The collection of fields and values making up a valid record
 	 * @throws Exception
 	 */
-	protected Map<String,Field> isolateFields(String record) throws Exception {
+	protected Map<String,Field> isolateFields(final String record) throws Exception {
 		final Map<String,Field> fieldMap = new HashMap<>();
 		String[] fieldList = processRecordLine(record, this.getFieldCount());
 		
@@ -76,8 +77,13 @@ public abstract class Record {
 			 fieldMap.put(fields[i].getFieldSpec().getName(), fields[i]);
 		}
 		validFields(fields);
+		this.translateFields(fieldMap);
 		
 		return fieldMap;
+	}
+	
+	protected void translateFields(final Map<String,Field> fields) throws Exception {
+		
 	}
 	
 	/**

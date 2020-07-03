@@ -1,0 +1,17 @@
+				            Via email
+					    <<system.today>>
+
+Dear <<letterName>>,
+
+This is confirmation of the products purchased on the above
+date:
+
+  <<group.products>>
+  <<productName>>    <<productCost>>	
+
+If any of this information is incorrect, please contact us as 
+soon as possible.
+
+	Yours sincerely,
+
+	The Company.

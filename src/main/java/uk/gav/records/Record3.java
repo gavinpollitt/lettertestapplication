@@ -13,7 +13,7 @@ import uk.gav.records.RecordUtils.FieldSpec;
  * @author regen
  *
  */
-public class Record3 extends Record {
+public class Record3 extends CompanyRecord {
 	private final static Pattern COMP_REG = Pattern.compile(".{1,20}");
 	private final static Pattern LN_REG = Pattern.compile(".{1,15}");
 
@@ -65,7 +65,7 @@ public class Record3 extends Record {
 	 * @author regen
 	 *
 	 */
-	public static class Record3A extends Record {
+	public static class Record3A extends CompanyRecord {
 		private final static Pattern PNAME_REG = Pattern.compile(".{3,20}");
 		private final static Pattern PCOST_REG = Pattern.compile("^[1-9]?[0-9]*(\\.[0-9][0-9]?)?$");
 

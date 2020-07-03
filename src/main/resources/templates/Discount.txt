@@ -1,0 +1,11 @@
+					    Via email
+					    <<system.today>>
+
+Dear <<letterName>>,
+
+This is confirmation that a discount rate of <<discount>> 
+has been applied to your account until further notice.
+
+	Yours sincerely,
+
+	The Company.
