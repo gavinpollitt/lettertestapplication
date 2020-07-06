@@ -25,11 +25,16 @@ batch:
       uk.gav.date.TestDateProvider
    confirmation: uk.gav.output.FileTarget
    discount: uk.gav.output.FileTarget
-   invoice: uk.gav.output.FileTarget
+   invoice: uk.gav.output.S3Target
 
 output:
    fileTarget:
       directory: file:///home/regen/temp/output
+   s3Target:
+      uri: http://192.168.56.103:8001
+      bucket: letters
+      region: eu-west-2
+      auth:
    
 company:
    host: localhost

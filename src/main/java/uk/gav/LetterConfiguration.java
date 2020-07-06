@@ -107,12 +107,12 @@ public class LetterConfiguration {
 	
 	@Bean(name="discountTarget")
 	public OutputTarget getDiscountTarget() {
-		return this.getImp(this.confirmation);
+		return this.getImp(this.discount);
 	}
 
 	@Bean(name="invoiceTarget")
 	public OutputTarget getInvoiceTarget() {
-		return this.getImp(this.confirmation);
+		return this.getImp(this.invoice);
 	}
 
 	public List<String> getLineListeners() {
