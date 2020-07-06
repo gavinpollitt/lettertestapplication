@@ -23,7 +23,14 @@ batch:
       uk.gav.letter.InvoiceSource
    dateProvider:
       uk.gav.date.TestDateProvider
+   confirmation: uk.gav.output.FileTarget
+   discount: uk.gav.output.FileTarget
+   invoice: uk.gav.output.FileTarget
 
+output:
+   fileTarget:
+      directory: file:///home/regen/temp/output
+   
 company:
    host: localhost
    port: 8081

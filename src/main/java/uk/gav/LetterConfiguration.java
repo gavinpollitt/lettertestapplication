@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import uk.gav.batch.LineListener;
 import uk.gav.date.DateProvider;
 import uk.gav.letter.LetterSource;
+import uk.gav.output.OutputTarget;
 import uk.gav.records.Record;
 
 @Configuration
@@ -29,7 +30,21 @@ public class LetterConfiguration {
 	private List<String> lineListeners;
 	private List<String> letterSources;
 	private String		 dateProvider;
+	private String       confirmation;
+	private String       discount;
+	private String       invoice;
 
+	@SuppressWarnings("unchecked")
+	public <T> T getImp(final String source) {
+		T clazz = null;
+		try {
+			clazz = (T) context.getAutowireCapableBeanFactory().createBean(Class.forName(source));
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Unable to load service class: " + source + "::" + e);
+		}
+		return clazz;		
+	}
+	
 	@Bean
 	public TaskExecutor getTaskExecutor() {
 		ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
@@ -85,6 +100,21 @@ public class LetterConfiguration {
 		return clazz;
 	}
 
+	@Bean(name="confirmationTarget")
+	public OutputTarget getConfirmationTarget() {
+		return this.getImp(this.confirmation);
+	}
+	
+	@Bean(name="discountTarget")
+	public OutputTarget getDiscountTarget() {
+		return this.getImp(this.confirmation);
+	}
+
+	@Bean(name="invoiceTarget")
+	public OutputTarget getInvoiceTarget() {
+		return this.getImp(this.confirmation);
+	}
+
 	public List<String> getLineListeners() {
 		return lineListeners;
 	}
@@ -103,5 +133,29 @@ public class LetterConfiguration {
 
 	public void setDateProvider(String dateProvider) {
 		this.dateProvider = dateProvider;
+	}
+
+	public String getConfirmation() {
+		return confirmation;
+	}
+
+	public void setConfirmation(String confirmation) {
+		this.confirmation = confirmation;
+	}
+
+	public String getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(String discount) {
+		this.discount = discount;
+	}
+
+	public String getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(String invoice) {
+		this.invoice = invoice;
 	}
 }

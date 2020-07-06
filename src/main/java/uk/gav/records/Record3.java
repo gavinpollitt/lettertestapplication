@@ -31,6 +31,11 @@ public class Record3 extends CompanyRecord {
 				new FieldSpec("letterName", LN_REG));
 	}
 
+	@Override
+	public String getType() {
+		return "Invoice";
+	}
+
 	public List<Record3A> getProducts() {
 		return this.products;
 	}
@@ -81,6 +86,11 @@ public class Record3 extends CompanyRecord {
 					new FieldSpec("productCost", PCOST_REG));
 		}
 		
+		@Override
+		public String getType() {
+			return "Product";
+		}
+
 
 		@Override
 		public void postValidate() throws Exception {

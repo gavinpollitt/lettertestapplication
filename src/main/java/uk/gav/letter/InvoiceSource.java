@@ -1,5 +1,9 @@
 package uk.gav.letter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
+import uk.gav.output.OutputTarget;
 import uk.gav.records.Record;
 import uk.gav.records.Record3;
 
@@ -11,23 +15,19 @@ import uk.gav.records.Record3;
 public class InvoiceSource extends LetterSource<Record3> {
 
 	private final static String TEMPLATE_LOC = "classpath:templates/Invoice.txt";
-	private final static String OUTPUT_DIR = "file:///home/regen/temp/output";
-
-	private final static String OUTPUT_FN = "Invoice";
 	
+	@Autowired
+	@Qualifier("invoiceTarget")
+	private OutputTarget outputTarget;
+
 	@Override
 	protected String getTemplateURI() {
 		return TEMPLATE_LOC;
 	}
 	
 	@Override
-	protected String getOutputDir() {
-		return OUTPUT_DIR;
-	}
-
-	@Override
-	protected String getFilename(Record3 letterRecord) {
-		return OUTPUT_FN + "_" + letterRecord.getFields().get("companyName").getValue() + ".txt";
+	protected OutputTarget getTarget() {
+		return this.outputTarget;
 	}
 
 	/**

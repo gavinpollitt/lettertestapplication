@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.util.ResourceUtils;
 
+import uk.gav.output.OutputTarget;
 import uk.gav.records.Record;
 import uk.gav.records.RecordUtils.Field;
 
@@ -36,12 +37,7 @@ public abstract class LetterSource<T extends Record> {
 	// The location of the specific template required
 	protected abstract String getTemplateURI();
 
-	// The location of the output directory where the generated letter will be
-	// deposited
-	protected abstract String getOutputDir();
-
-	// The destination filename
-	protected abstract String getFilename(T letterRecord);
+	protected abstract OutputTarget getTarget();
 
 	public abstract void consumeRecord(Record r);
 
@@ -83,10 +79,8 @@ public abstract class LetterSource<T extends Record> {
 
 		for (T r : letterSet) {
 			List<String> out = injectValues(r);
-
-			Path p = Paths.get(URI.create(getOutputDir() + "/" + getFilename(r)));
-			p = Files.createFile(p);
-			Files.write(p, out);
+			
+			this.getTarget().forward(r, out);
 		}
 
 		this.reset();

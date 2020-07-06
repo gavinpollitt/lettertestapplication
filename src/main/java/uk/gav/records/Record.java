@@ -33,6 +33,8 @@ public abstract class Record {
 	// Implementors to provide any validation following the load of all records in a group
 	public abstract void postValidate() throws Exception;
 	
+	public abstract String getType();
+	
 	/**
 	 * Create the record instance and perform the necessary field extraction
 	 * @param line The file line forming the record content.

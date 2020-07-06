@@ -37,6 +37,11 @@ public class Record1 extends CompanyRecord {
 				new FieldSpec("letterName", LN_REG));
 	}
 
+	@Override
+	public String getType() {
+		return "Confirmation";
+	}
+
 	public List<Record1A> getContacts() {
 		return contacts;
 	}
@@ -88,6 +93,10 @@ public class Record1 extends CompanyRecord {
 					new FieldSpec("contactNumber", CNUM_REG));
 		}
 		
+		@Override
+		public String getType() {
+			return "Contact";
+		}
 
 		@Override
 		public void postValidate() throws Exception {

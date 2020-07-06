@@ -31,6 +31,11 @@ public class Record2 extends CompanyRecord {
 	}
 
 	@Override
+	public String getType() {
+		return "Discount";
+	}
+
+	@Override
 	public Map<String, List<? extends Record>> getChildren() {
 		return null;
 	}
