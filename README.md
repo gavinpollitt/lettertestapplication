@@ -1,6 +1,5 @@
 # Test Time
-mysql -u testu -p -h 192.168.56.103 --port 6603 -D test_db
-
+mysql -u testu --password=testp -h 192.168.56.103 --port 6603 -D test_db
 
 curl http://localhost:8080/recordManager/scan/5
 curl http://localhost:8080/recordManager/stop

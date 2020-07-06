@@ -5,24 +5,25 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TestDateProvider extends DateProvider {
 
-	private static boolean cached = false;
+	private static LocalDateTime cached = null;
 
 	@Autowired
 	private DateRepository dateRepository;
 
+	public static void clearCache() {
+		cached = null;
+	}
 	public LocalDateTime getDate() {
 		LocalDateTime ldt = super.getDate();
-		if (!cached) {
+		if (cached==null) {
 			Optional<TestDate> td = this.dateRepository.findById(1L);
 			if (td.isPresent()) {
-				cached = true;
 				TestDate dt = td.get();
 				
 				String tm = dt.getTime();				
@@ -38,10 +39,15 @@ public class TestDateProvider extends DateProvider {
 					String off = dt.getOffset() != null ? dt.getOffset() : "UTC";
 					
 					ldt = LocalDateTime.ofInstant(i,ZoneId.of(off));
+					cached = ldt;
+
 				} catch (Exception e) {
 					System.out.println("Invalid DB date set: " + baseDate);
 				}
 			}
+		}
+		else {
+			ldt = cached;
 		}
 		return ldt;
 	}
