@@ -1,6 +1,9 @@
 package uk.gav.letter;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,7 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.springframework.util.ResourceUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
 import uk.gav.output.OutputTarget;
 import uk.gav.records.Record;
@@ -33,6 +38,9 @@ public abstract class LetterSource<T extends Record> {
 	private List<T> letterSet = new ArrayList<>();
 
 	private Template template;
+	
+	@Autowired
+	private ResourceLoader resourceLoader;
 
 	// The location of the specific template required
 	protected abstract String getTemplateURI();
@@ -54,7 +62,8 @@ public abstract class LetterSource<T extends Record> {
 				this.template = new Template(uri);
 			}
 			else {
-				this.template = new Template(tempURI);				
+				Resource r = this.resourceLoader.getResource(tempURI);
+				this.template = new Template(r);				
 			}
 		}
 
@@ -238,9 +247,17 @@ public abstract class LetterSource<T extends Record> {
 		private List<String> templateLines;
 		private List<List<FieldPos>> lineTags;
 
-		public Template (final String uri) throws Exception {
-			File f = ResourceUtils.getFile(uri);
-			this.processTemplateFile(f.toPath());
+		public Template (final Resource uri) throws Exception {
+			try {
+				File f = uri.getFile();
+				this.processTemplateFile(f.toPath());
+			}
+			catch (Exception e) {
+				//cater for JAR file
+				InputStream is = uri.getInputStream();
+				this.processTemplateFile(is);
+				is.close();
+			}
 		}
 		
 		public Template(URI uri) throws Exception {
@@ -250,6 +267,13 @@ public abstract class LetterSource<T extends Record> {
 		
 		private void processTemplateFile(final Path p) throws Exception {
 			this.templateLines = Files.lines(p).collect(Collectors.toList());
+			this.lineTags = new ArrayList<>(this.templateLines.size());
+			this.extractFields();			
+		}
+
+		private void processTemplateFile(final InputStream is) throws Exception {
+			this.templateLines = new BufferedReader(new InputStreamReader(is))
+					  .lines().collect(Collectors.toList());
 			this.lineTags = new ArrayList<>(this.templateLines.size());
 			this.extractFields();			
 		}
