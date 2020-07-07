@@ -2,6 +2,7 @@ package uk.gav.batch;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import uk.gav.records.ErrorRecord;
 import uk.gav.records.Record3;
 import uk.gav.records.Record3.Record3A;
 
@@ -56,7 +57,7 @@ public class InvoiceListener implements LineListener {
 				}
 			}
 		} catch (Exception e) {
-			this.recordListener.acceptResult("Line " + lineNumber + "->" + e.getMessage());
+			this.recordListener.acceptResult(new ErrorRecord(lineNumber, "Line " + lineNumber + "->" + e.getMessage()));
 		}
 	}
 

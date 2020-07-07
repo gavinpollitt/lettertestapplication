@@ -23,10 +23,10 @@ public class DBBatchProcessor extends BatchProcessor {
 		System.out.println("I've found: " + records.size() + " records");
 		List<String> recs = records.stream().map(r -> r.getData()).collect(Collectors.toList());
 
-		this.processSingleBatch(recs);
+		final String compFlag = this.processSingleBatch(recs)?"Y":"E";
 		
 		records.stream().forEach(r -> {
-			r.setProcessed("Y");
+			r.setProcessed(compFlag);
 			this.recordRepository.save(r);
 		});
 		

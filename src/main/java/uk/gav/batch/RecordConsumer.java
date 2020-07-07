@@ -1,5 +1,6 @@
 package uk.gav.batch;
 
+import uk.gav.records.ErrorRecord;
 import uk.gav.records.Record;
 
 /**
@@ -9,6 +10,6 @@ import uk.gav.records.Record;
  */
 public interface RecordConsumer {
 	public void acceptResult(Record r);
-	public void acceptResult(String problem);
+	public void acceptResult(ErrorRecord problem);
 	public boolean processResults();
 }

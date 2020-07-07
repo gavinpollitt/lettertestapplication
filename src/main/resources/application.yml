@@ -29,13 +29,18 @@ batch:
 
 output:
    fileTarget:
-      directory: file:///home/regen/temp/output
+      directory: /home/regen/temp/output
    s3Target:
       uri: http://192.168.56.103:8001
       bucket: letters
       region: eu-west-2
       auth:
-   
+   AMQPTarget:
+      host: 192.168.56.103
+      port: 5672
+      user: guest
+      password: guest
+      virtualHost: /
 company:
    host: localhost
    port: 8081

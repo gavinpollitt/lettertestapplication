@@ -33,7 +33,7 @@ public class Record {
 	private String content;
 	
 	@NotNull
-	@Pattern(regexp="Y|N")
+	@Pattern(regexp="Y|N|E")
 	private String processed;
 	
 	public Record() {}

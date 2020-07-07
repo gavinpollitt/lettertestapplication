@@ -2,6 +2,7 @@ package uk.gav.batch;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import uk.gav.records.ErrorRecord;
 import uk.gav.records.Record2;
 
 /** 
@@ -24,7 +25,7 @@ public class DiscountListener implements LineListener {
 				this.recordListener.acceptResult(new Record2(recordLine));
 			}
 		} catch (Exception e) {
-			this.recordListener.acceptResult("Line " + lineNumber + "->" + e.getMessage());
+			this.recordListener.acceptResult(new ErrorRecord(lineNumber,"Line " + lineNumber + "->" + e.getMessage()));
 		}
 	}
 
