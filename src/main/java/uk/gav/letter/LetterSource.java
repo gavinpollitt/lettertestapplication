@@ -253,7 +253,7 @@ public abstract class LetterSource<T extends Record> {
 				this.processTemplateFile(f.toPath());
 			}
 			catch (Exception e) {
-				//cater for JAR file
+				//cater for residing in a JAR file
 				InputStream is = uri.getInputStream();
 				this.processTemplateFile(is);
 				is.close();

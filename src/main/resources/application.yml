@@ -34,7 +34,7 @@ output:
       uri: http://192.168.56.103:8001
       bucket: letters
       region: eu-west-2
-      auth:
+      auth: test:me
    AMQPTarget:
       host: 192.168.56.103
       port: 5672
@@ -42,21 +42,48 @@ output:
       password: guest
       virtualHost: /
 company:
-   host: localhost
+   host: 192.168.56.103
    port: 8081
      
 ---
 
 spring:
+   profiles: docker
+   datasource:
+      url: jdbc:mysql://192.168.0.15:3306/test_db
+      username: testu
+      password: testp
+
+output:
+   fileTarget:
+      directory: /home/output
+   s3Target:
+      uri: http://192.168.0.28:8001
+      bucket: letters
+      region: eu-west-2
+      auth: test:me
+   AMQPTarget:
+      host: 192.168.0.30
+      port: 5672
+      user: guest
+      password: guest
+      virtualHost: /
+company:
+   host: 192.168.0.10
+   port: 8081
+    
+---
+     
+spring:
    profiles: st
-datasource:
-   url: jdbc:h2:file:~/temp/data/q
-   driverClassName: org.h2.Driver
-   username: qman
-   password: qman
-h2:
-   console:
-      enabled: true
+   datasource:
+      url: jdbc:h2:file:~/temp/data/q
+      driverClassName: org.h2.Driver
+      username: qman
+      password: qman
+   h2:
+      console:
+         enabled: true
 jpa:
    database-platform: org.hibernate.dialect.H2Dialect
    hibernate:
