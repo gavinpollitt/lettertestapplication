@@ -24,11 +24,11 @@ public class CompanyCache {
 	
 	public String getCompanyName(final String companyId) throws Exception {
 		if (this.companies.get(companyId) != null) {
-System.out.println("Acquiring company " + companyId + " from cache");
+			//System.out.println("Acquiring company " + companyId + " from cache");
 			return this.companies.get(companyId).name;
 		}
 		else {
-System.out.println("Acquiring company " + companyId + " from API");
+			//System.out.println("Acquiring company " + companyId + " from API");
 			Company c = this.locateCompany(companyId);
 			
 			if (c == null || c.getName().length() == 0) {

@@ -8,9 +8,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
+import uk.gav.date.DateProvider;
 import uk.gav.output.OutputTarget;
 import uk.gav.records.Record;
 import uk.gav.records.RecordUtils.Field;
@@ -35,12 +35,17 @@ import uk.gav.records.RecordUtils.Field;
  */
 public abstract class LetterSource<T extends Record> {
 
+	private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
 	private List<T> letterSet = new ArrayList<>();
 
 	private Template template;
 	
 	@Autowired
 	private ResourceLoader resourceLoader;
+	
+	@Autowired
+	private DateProvider dateProvider;
 
 	// The location of the specific template required
 	protected abstract String getTemplateURI();
@@ -193,7 +198,7 @@ public abstract class LetterSource<T extends Record> {
 	 *            The candidate values for replacement
 	 * @return
 	 */
-	private static String constructLine(String line, final List<FieldPos> repFields, final Map<String, Field> repVals) {
+	private String constructLine(String line, final List<FieldPos> repFields, final Map<String, Field> repVals) {
 		//Resolve fields which will not shift the length of the line
 		List<FieldPos> fixedFields = repFields.stream().filter(fp -> fp.limit != null && fp.limit > 0).collect(Collectors.toList());
 		
@@ -220,13 +225,13 @@ public abstract class LetterSource<T extends Record> {
 	 * @param repVals
 	 * @return The value of the field
 	 */
-	private static String getFieldValue(String repField, Map<String, Field> repVals) {
+	private String getFieldValue(String repField, Map<String, Field> repVals) {
 		String val = null;
 		String ns = repField.replace("<<", "").replace(">>", "");
 
 		if (ns.startsWith("system.")) {
 			if (ns.substring(7).equals("today")) {
-				val = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+				val = dateProvider.getDate().format(formatter);
 			}
 		} else {
 			Field curField = repVals.get(ns);
