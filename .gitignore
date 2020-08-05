@@ -40,3 +40,7 @@ hs_err_pid*
 .idea
 *.iml
 
+.classpath
+.factorypath
+.project
+.settings/
